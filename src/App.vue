@@ -1,28 +1,35 @@
+<!--
+ * @Author: 少华
+ * @Date: 2019-12-30 16:40:58
+ * @LastEditors  : 少华
+ * @LastEditTime : 2020-01-13 17:04:59
+ * @Description: update time
+ -->
 <template>
   <div id="app">
-    <img alt="Vue logo" src="./assets/logo.png">
-    <HelloWorld msg="Welcome to Your Vue.js App"/>
+    <m-header></m-header>
+    <tab></tab>
+    <keep-alive>
+      <router-view></router-view>
+    </keep-alive>
+    <player></player>
   </div>
 </template>
 
 <script>
-import HelloWorld from './components/HelloWorld.vue'
+import MHeader from "./components/m-header/m-header";
+import Tab from "./components/tab/tab";
+import Player from "./components/player/player";
 
 export default {
-  name: 'app',
+  name: "app",
   components: {
-    HelloWorld
+    MHeader,
+    Tab,
+    Player
   }
-}
+};
 </script>
 
 <style>
-#app {
-  font-family: 'Avenir', Helvetica, Arial, sans-serif;
-  -webkit-font-smoothing: antialiased;
-  -moz-osx-font-smoothing: grayscale;
-  text-align: center;
-  color: #2c3e50;
-  margin-top: 60px;
-}
 </style>
