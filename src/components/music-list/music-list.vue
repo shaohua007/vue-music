@@ -1,18 +1,18 @@
 <template>
-  <div>
+  <div class="singer-detail">
     <div>
-      <div class="back" @click="back">
-        <span class="icon-back"></span>
-      </div>
+      <!-- <div class="back" @click="back"> -->
+      <!-- <span class="icon-back"></span> -->
+      <!-- </div> -->
       <div class="title" ref="title">{{title}}</div>
       <div class="bg-image" :style="getImgStyle" ref="bgImage">
+        <div class="filter" ref="filter"></div>
         <div class="play-wrapper">
-          <div ref="playBtn" class="play">
+          <div ref="playBtn" class="play" @click="playRandom">
             <i class="icon-play"></i>
             <span class="text">随机播放全部</span>
           </div>
         </div>
-        <div class="filter" ref="filter"></div>
       </div>
     </div>
     <div class="bg-layer" ref="layer"></div>
@@ -31,7 +31,7 @@
 import Scroll from "../../base/scroll/scroll";
 import Loading from "../../base/loading/loading";
 import SongList from "../../base/song-list/song-list";
-import { mapActions } from 'vuex'
+import { mapActions } from "vuex";
 export default {
   data() {
     return {
@@ -49,31 +49,38 @@ export default {
     },
     songs: {
       type: Array,
-      default () {
-          return []
-        }
+      default() {
+        return [];
+      }
     }
   },
   computed: {
     getImgStyle() {
+          console.log(this.avatar)
+
       return `background: url(${this.avatar})`;
     }
   },
   methods: {
-    ...mapActions([
-      "selectPlay"
-    ]),
+    ...mapActions(["selectPlay"]),
     selectItem(item, index) {
       this.selectPlay({
         list: this.songs,
         index
-      })
+      });
+    },
+    playRandom() {
+      this.selectPlay({
+        list: this.songs,
+        index: "0"
+      });
     },
     scroll(pos) {
       this.scrollY = pos.y;
     },
     back() {
-      this.$router.back()
+      // this.$emit('backClick')
+      this.$router.back();
     }
   },
   watch: {
@@ -82,22 +89,22 @@ export default {
       let titleH = this.$refs.title.clientHeight;
       let h = filterH - titleH;
       let scale = 1;
-      const percent = Math.abs(newY/filterH)
-      if(newY > 0) {
-        scale = 1 +percent
-        this.$refs.bgImage.style['transform'] = `scale(${scale})`
-        this.$refs.bgImage.style['zIndex'] = 10
+      const percent = Math.abs(newY / filterH);
+      if (newY > 0) {
+        scale = 1 + percent;
+        this.$refs.bgImage.style["transform"] = `scale(${scale})`;
+        this.$refs.bgImage.style["zIndex"] = 10;
       }
-      if (h >= -newY && newY<=0) {
+      if (h >= -newY && newY <= 0) {
         let ratio = 0.4 + (-newY / h) * 0.6;
         console.log(ratio);
         this.$refs.filter.style.opacity = ratio;
-        this.$refs.title.style.opacity = ratio
+        this.$refs.title.style.opacity = ratio;
         this.$refs.layer.style.top = newY + "px";
-        this.$refs.bgImage.style['zIndex'] = 0
-      }else if(newY < 0){
-            this.$refs.layer.style.top = -h + "px";
-      }     
+        this.$refs.bgImage.style["zIndex"] = 0;
+      } else if (newY < 0) {
+        this.$refs.layer.style.top = -h + "px";
+      }
     }
   },
   components: {
@@ -111,18 +118,30 @@ export default {
 <style scoped lang="stylus" rel="stylesheet/stylus">
 @import '../../assets/stylus/variable';
 @import '../../assets/stylus/mixin';
-
+.singer-detail {
+  position: fixed;
+  z-index: 100;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  background: $color-background;
+}
 .title {
   position: absolute;
   z-index: 60;
   top: 0;
-  width: 100%;
+  width: 80%;
+  padding 0 10%;
   text-align: center;
   line-height: 42px;
-  color: $color-text;
+  color: $color-text-ll;
   font-size: $font-size-large;
-  background: #222;
-  opacity: 0;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+  // background: $color-background-d;
+  // opacity: 0;
 }
 
 .back {
@@ -145,6 +164,7 @@ export default {
   height: 0;
   padding-top: 70%;
   transform-origin: top;
+  background-size: 100% !important;
 
   .play-wrapper {
     position: absolute;

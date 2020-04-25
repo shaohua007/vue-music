@@ -19,6 +19,6 @@ export const commonParams = {
   
   export const ERR_OK = 0
 
-  export const API_IP = 'http://localhost'
+  export const API_IP = 'http://47.52.168.139'
 
-  export const API_PORT = '8083'
+  export const API_PORT = '80'

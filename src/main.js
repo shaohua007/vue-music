@@ -12,8 +12,9 @@ import router from './router'
 import store from './store'
 import fastclick from 'fastclick'
 import VuelazyLoad from 'vue-lazyload'
-
 import './assets/stylus/index.styl'
+/* eslint-disable */
+// import vConsole from 'vconsole'
 
 fastclick.attach(document.body);
 

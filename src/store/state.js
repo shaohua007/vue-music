@@ -6,7 +6,11 @@ const state = {
     playlist: [],
     sequenceList: [],
     mode: playMode.sequence,
-    currentIndex: -1
+    currentIndex: -1,
+    disc: {},
+    topList: {},
+    //  是否点击行为
+    clickAction: false
 }
 
 export default state
